@@ -6,8 +6,6 @@
 <html>
 <head>
   <title>Bootstrap Example</title>
-  <style type="text/css">
-  </style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -26,6 +24,9 @@
 <th>userBirthdate</th>
 <th>userPhone</th>
 <th>user Adress</th>
+<th>Edit</th>
+<th>Delete</th>
+
 </tr>
 <%   for(int i=0; i<users.size();i++){
 %>
@@ -37,11 +38,25 @@
 <td><%=users.get(i).getbDay()%></td>
 <td><%=users.get(i).getPhone() %></td>
 <td><%=users.get(i).getAdress() %></td>
+<td><form action="http://localhost:8080/LoginProject/DeleteAndEdit"  method="post" id="form1"><button type="button" class="btn btn-info btn-block" onclick="EditU(<%=users.get(i).getId()%>)">Edit</button></form></td>
+<td><button type="button" class="btn btn-danger btn-block"  onclick="deleteU(<%=users.get(i).getId()%>)">Delete</button></td>
 </tr>
 <%	
-}	
-	%>
+}
+%>
 
 </table>
+
+<script type="text/javascript">
+function deleteU(i){
+	$.post( "DeleteAndEdit", { id: i ,EOD:"Delete"});
+	location.reload();
+}
+function EditU(i){
+	var form =$('#form1');
+	form.attr('action','http://localhost:8080/LoginProject/DeleteAndEdit?id='+i+'&EOD=Edit');
+	form.submit();
+}
+</script>
 </body>
 </html>
