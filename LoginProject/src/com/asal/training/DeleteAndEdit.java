@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,12 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.asal.training.Database.Database;
 
-
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class DeleteAndEdit
  */
-@WebServlet("/Login.do")
-public class LoginServlet extends HttpServlet implements Database {
+@WebServlet("/DeleteAndEdit")
+public class DeleteAndEdit extends HttpServlet implements Database {
 	private static final long serialVersionUID = 1L;
 	private Connection conn = null;
 	private Statement st = null;
@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet implements Database {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public DeleteAndEdit() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -48,46 +48,39 @@ public class LoginServlet extends HttpServlet implements Database {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
+		String EOD  = request.getParameter("EOD"); // edit or delete
+	    String id = request.getParameter("id");
+	    if(EOD.equalsIgnoreCase("Delete")){
+	    	delete(Integer.parseInt(id));
+	    	
+	    	Operation opp  = new Operation();
+			 ArrayList<user> users = opp.ListAllusers();
+			 request.setAttribute("users",users);
+			 RequestDispatcher rd = request.getRequestDispatcher("AllUsers.jsp");
+				rd.forward(request, response);
+	    }
+	    else{
+	    	user user  = getuserById(Integer.parseInt(id));
+	    	request.setAttribute("user",user);
+	    	RequestDispatcher rd = request.getRequestDispatcher("/edit");
+			rd.forward(request, response);
+	    }
+	}
+	public void delete(int id){
 		openConnection();
-		
-		String userName = request.getParameter("userName");                                                  
-		String password = request.getParameter("password");
-		
 		try {
-			pst = conn.prepareStatement("SELECT * FROM users WHERE \"userName\"='"
-					+ userName
-					+ "' and  \"password\" ='"
-					+ password
-					+ "'");
-			rs = pst.executeQuery();
- 
-		if(rs.next()){		
-			String username = rs.getString(2);
-			if(username.trim().equalsIgnoreCase("admin")){
-				Operation operation = new Operation(); 
-				 String json =operation.GetJsonByID(1);
-				 request.setAttribute("json",json);
-				 RequestDispatcher rd =request.getRequestDispatcher("/Admin");
-				 rd.forward(request, response);
-			}
-			else{
-				System.out.println("n");
-			RequestDispatcher rd = request.getRequestDispatcher("SendJson.jsp");
-			rd.forward(request, response);
-			}
-		}
-		else{
-			RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-			rd.forward(request, response);
-		}
-			
+			pst= conn.prepareStatement("delete from \"userDetails\" where \"userID\" = "+id+"");
+			pst.execute();
+			pst = conn.prepareStatement("delete from \"users\" where \"userID\" = "+id+"");
+			pst.execute();
+			closeConnection();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 	}
+
 
 	public void openConnection() {
 		try {
@@ -112,5 +105,34 @@ public class LoginServlet extends HttpServlet implements Database {
 		}
 
 	}
-
+	public user getuserById(int iD){
+		openConnection();
+		 user result = null ;
+		try {
+			pst=conn.prepareStatement("select * from \"users\" where \"userID\" = "+iD+"");
+			 rs=pst.executeQuery();
+			
+			 
+			 if(rs.next()){
+				  int id =rs.getInt(1);
+				  String name = rs.getString(2);
+				  String password=rs.getString(3);
+				  pst=conn.prepareStatement("select * from \"userDetails\" where \"userID\" = "+iD+"");
+				  rs=pst.executeQuery();
+				  if(rs.next()){
+					  String gender = rs.getString(2);
+					   String bDay = rs.getString(3);
+					   String phone = rs.getString(4);
+					   String adress=  rs.getString(5);
+					   result = new user(name, adress, id, phone, password, gender, bDay);
+				  }
+			 }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result ;
+	}
 }
+
+
