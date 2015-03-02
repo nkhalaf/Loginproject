@@ -41,7 +41,7 @@ public class ListUserServlet extends HttpServlet {
 		Operation opp  = new Operation();
 		 ArrayList<user> users = opp.ListAllusers();
 		 request.setAttribute("users",users);
-		 RequestDispatcher rd = request.getRequestDispatcher("/AllUsers");
+		 RequestDispatcher rd = request.getRequestDispatcher("AllUsers.jsp");
 			rd.forward(request, response);
 		
 	}

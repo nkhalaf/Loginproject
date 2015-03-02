@@ -1,4 +1,3 @@
-
 <%@page import="java.io.PrintWriter"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -33,9 +32,7 @@ $( document ).ready(function() {
 	var i2=0;
 	var result = jQuery.parseJSON(jsonn);
 	var form ;
-	
-	
-	for(i2 = 0  ;  i2<result.tags.length ; i2++){
+	for(i2 = 0  ; i2<result.tags.length ;i2++){
 		if(result.tags[i2].tag=="form" 	){
 			form=result.tags[i2];
 			$('#nbeel1').append("<form action='"+form.action+"'  method='"+form.methode+"' id='"+form.id+"'>  </form>");

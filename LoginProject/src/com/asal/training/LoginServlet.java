@@ -61,14 +61,14 @@ public class LoginServlet extends HttpServlet implements Database {
 					+ password
 					+ "'");
 			rs = pst.executeQuery();
- 
+          
 		if(rs.next()){		
 			String username = rs.getString(2);
 			if(username.trim().equalsIgnoreCase("admin")){
 				Operation operation = new Operation(); 
 				 String json =operation.GetJsonByID(1);
 				 request.setAttribute("json",json);
-				 RequestDispatcher rd =request.getRequestDispatcher("/Admin");
+				 RequestDispatcher rd =request.getRequestDispatcher("Admin.jsp");
 				 rd.forward(request, response);
 			}
 			else{
@@ -101,7 +101,6 @@ public class LoginServlet extends HttpServlet implements Database {
 
 	}
 
-	
 	// this method to close the connection
 	public void closeConnection() {
 		try {
