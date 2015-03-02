@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.asal.training.Database.Operation;
+import com.asal.training.bean.user;
+
 /**
  * Servlet implementation class ListUserServlet
  */

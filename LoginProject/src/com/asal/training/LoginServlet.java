@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.asal.training.Database.ConnectionToDatabase;
 import com.asal.training.Database.Database;
+import com.asal.training.Database.Operation;
 
 
 /**
@@ -49,7 +51,8 @@ public class LoginServlet extends HttpServlet implements Database {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		openConnection();
+		ConnectionToDatabase  connection = new ConnectionToDatabase();
+		connection.openConnection();
 		
 		String userName = request.getParameter("userName");                                                  
 		String password = request.getParameter("password");
@@ -62,22 +65,21 @@ public class LoginServlet extends HttpServlet implements Database {
 					+ "'");
 			rs = pst.executeQuery();
  
-		if(rs.next()){		
+		if(rs.next()){ 		
 			String username = rs.getString(2);
-			if(username.trim().equalsIgnoreCase("admin")){
-				Operation operation = new Operation(); 
-				 String json =operation.GetJsonByID(1);
-				 request.setAttribute("json",json);
-				 RequestDispatcher rd =request.getRequestDispatcher("/Admin");
-				 rd.forward(request, response);
-			}
-			else{
-				System.out.println("n");
-			RequestDispatcher rd = request.getRequestDispatcher("SendJson.jsp");
-			rd.forward(request, response);
-			}
-		}
-		else{
+			    if(username.trim().equalsIgnoreCase("admin")){
+				     Operation operation = new Operation(); 
+				     String json =operation.GetJsonByID(1);
+				     request.setAttribute("json",json);
+				     RequestDispatcher rd =request.getRequestDispatcher("/Admin");
+				     rd.forward(request, response);
+			     } else{
+				       System.out.println("n");
+			       	   RequestDispatcher rd = request.getRequestDispatcher("SendJson.jsp");
+			           rd.forward(request, response);
+			           }
+			    
+		} else {
 			RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 			rd.forward(request, response);
 		}
@@ -87,30 +89,8 @@ public class LoginServlet extends HttpServlet implements Database {
 			e.printStackTrace();
 		}
 
+		
 	}
 
-	public void openConnection() {
-		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url + dbName, userName,"02030203");
-			Statement st = conn.createStatement();
-		} catch (SQLException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	
-	// this method to close the connection
-	public void closeConnection() {
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
 
 }
