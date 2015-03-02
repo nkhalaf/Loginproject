@@ -29,9 +29,10 @@ public class Operation  implements Database{
 	
 	 public  String  GetJsonByID(int id ){
 		 String result = "";
-		  openConnection();
+		 ConnectionToDatabase  connection = new ConnectionToDatabase();
+		 connection.openConnection();
 		  try {
-			pst= conn.prepareStatement("select *  from \"JSON\" where \"JSONID\"="+id+";");
+			pst= connection.getConn().prepareStatement("select *  from \"JSON\" where \"JSONID\"="+id+";");
 			rs = pst.executeQuery(); 
 			     if(rs.next()){
 				       String  jsn  = rs.getString(2);
@@ -49,6 +50,7 @@ public class Operation  implements Database{
 
 			ConnectionToDatabase  connection = new ConnectionToDatabase();
 			connection.openConnection();
+			
 		  ArrayList<String> result = new ArrayList<String>();
 		  try {
 			pst=conn.prepareStatement("select * from users");
@@ -65,29 +67,18 @@ public class Operation  implements Database{
 	 }
 	 
 	//  this  method  to  open  the connection to the database 
-	public  void openConnection(){	
-			try {
-				Class.forName(driver);
-				conn = DriverManager.getConnection(url + dbName, userName, "02030203");
-				Statement st=conn.createStatement();
-			
-			} catch (SQLException  | ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
-
-	}
 	
 	public ArrayList<user> ListAllusers(){
 		
 		ArrayList<user> users  = new ArrayList<user>();
-		openConnection();
+		ConnectionToDatabase  connection = new ConnectionToDatabase();
+		connection.openConnection();
 		try {
-			pst=conn.prepareStatement("select * from \"userDetails\"");
-			 rs= pst.executeQuery();
-				pst2=conn.prepareStatement("select * from users");
-				 rs2 = pst2.executeQuery();
+			pst=connection.getConn().prepareStatement("select * from \"userDetails\"");
+			rs= pst.executeQuery();
+			pst2=connection.getConn().prepareStatement("select * from users");
+			rs2 = pst2.executeQuery();
 			 while(rs.next() &&  rs2.next()){
 				String  gender = rs.getString(2);
 				int id = rs.getInt(1);

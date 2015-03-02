@@ -14,7 +14,7 @@
 	</welcome-file-list>
 	<servlet>
 		<servlet-name>edit</servlet-name>
-		<jsp-file>/Edit.jsp</jsp-file>
+		<jsp-file>/AdminJ/Edit.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>edit</servlet-name>
@@ -22,7 +22,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>alluser</servlet-name>
-		<jsp-file>/AllUsers.jsp</jsp-file>
+		<jsp-file>/AdminJ/AllUsers.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>alluser</servlet-name>
@@ -30,7 +30,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>Admin</servlet-name>
-		<jsp-file>/Admin.jsp</jsp-file>
+		<jsp-file>/AdminJ/Admin.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Admin</servlet-name>

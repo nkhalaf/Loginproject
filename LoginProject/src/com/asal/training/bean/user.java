@@ -12,12 +12,12 @@ public class user {
 	public user(String name, String address, int id, String phone,
 			String password, String gender, String birthDay) {
 		this.name = name;
-		this.adress = adress;
+		this.adress = address;
 		this.id = id;
 		this.phone = phone;
 		this.password = password;
 		this.gender = gender;
-		this.bDay = bDay;
+		this.bDay = birthDay;
 
 	}
 

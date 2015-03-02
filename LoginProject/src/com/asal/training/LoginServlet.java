@@ -58,7 +58,8 @@ public class LoginServlet extends HttpServlet implements Database {
 		String password = request.getParameter("password");
 		
 		try {
-			pst = conn.prepareStatement("SELECT * FROM users WHERE \"userName\"='"
+		
+			pst = connection.getConn().prepareStatement("SELECT * FROM users WHERE \"userName\"='"
 					+ userName
 					+ "' and  \"password\" ='"
 					+ password

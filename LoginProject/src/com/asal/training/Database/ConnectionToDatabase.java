@@ -7,8 +7,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * @author nbeel_000
+ *
+ */
 public class ConnectionToDatabase implements Database {
-	private Connection conn = null;
+	 public Connection getConn() {
+		return conn;
+	}
+
+
+	public void setConn(Connection conn) {
+		this.conn = conn;
+	}
+
+
+	Connection conn = null;
 	private Statement st = null;
 	private ResultSet rs = null;
 	private PreparedStatement pst = null;

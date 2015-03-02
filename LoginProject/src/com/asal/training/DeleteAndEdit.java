@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.asal.training.Database.ConnectionToDatabase;
 import com.asal.training.Database.Database;
 import com.asal.training.Database.Operation;
 import com.asal.training.bean.user;
@@ -60,22 +61,27 @@ public class DeleteAndEdit extends HttpServlet implements Database {
 			 request.setAttribute("users",users);
 			 RequestDispatcher rd = request.getRequestDispatcher("AllUsers.jsp");
 				rd.forward(request, response);
-	    }
-	    else{
+	     } else {
 	    	user user  = getuserById(Integer.parseInt(id));
 	    	request.setAttribute("user",user);
 	    	RequestDispatcher rd = request.getRequestDispatcher("/edit");
 			rd.forward(request, response);
-	    }
+	           }
 	}
+	
+	
+	
 	public void delete(int id){
-		openConnection();
+
+		ConnectionToDatabase  connection = new ConnectionToDatabase();
+		connection.openConnection();
+		
 		try {
-			pst= conn.prepareStatement("delete from \"userDetails\" where \"userID\" = "+id+"");
+			pst= connection.getConn().prepareStatement("delete from \"userDetails\" where \"userID\" = "+id+"");
 			pst.execute();
-			pst = conn.prepareStatement("delete from \"users\" where \"userID\" = "+id+"");
+			pst = connection.getConn().prepareStatement("delete from \"users\" where \"userID\" = "+id+"");
 			pst.execute();
-			closeConnection();
+			connection.closeConnection();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -83,35 +89,14 @@ public class DeleteAndEdit extends HttpServlet implements Database {
 		
 	}
 
-
-	public void openConnection() {
-		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url + dbName, userName,"02030203");
-			Statement st = conn.createStatement();
-		} catch (SQLException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	
-	// this method to close the connection
-	public void closeConnection() {
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
 	public user getuserById(int iD){
-		openConnection();
-		 user result = null ;
+
+		ConnectionToDatabase  connection = new ConnectionToDatabase();
+		connection.openConnection();
+		
+		user result = null ;
 		try {
-			pst=conn.prepareStatement("select * from \"users\" where \"userID\" = "+iD+"");
+			pst=connection.getConn().prepareStatement("select * from \"users\" where \"userID\" = "+iD+"");
 			 rs=pst.executeQuery();
 			
 			 
@@ -119,7 +104,7 @@ public class DeleteAndEdit extends HttpServlet implements Database {
 				  int id =rs.getInt(1);
 				  String name = rs.getString(2);
 				  String password=rs.getString(3);
-				  pst=conn.prepareStatement("select * from \"userDetails\" where \"userID\" = "+iD+"");
+				  pst=connection.getConn().prepareStatement("select * from \"userDetails\" where \"userID\" = "+iD+"");
 				  rs=pst.executeQuery();
 				  if(rs.next()){
 					  String gender = rs.getString(2);
