@@ -46,7 +46,7 @@ width:80%;
 </div>
 <div class="container">
 <center>
-<form action="../LoginS" method="post" class="form-horizontal" role="form" id="form2" >
+<form action="../Login.do" method="post" class="form-horizontal" role="form" id="form2" >
     <div class="form-group">
 <input type="text" name = "userName" id="userName"  class="form-control" placeholder="userName"  required  >
 </div>
