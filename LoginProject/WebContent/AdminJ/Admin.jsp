@@ -41,7 +41,7 @@ $( document ).ready(function() {
 	for(i2 = 0  ;  i2<result.tags.length ; i2++){
 		if(result.tags[i2].tag=="form" 	){
 			form=result.tags[i2];
-			$('#nbeel1').append("<form id='"+form.id+"'>  </form>");
+			$('#nbeel1').append("<form id='"+form.id+"' action=\"AddToJson.do\" method=\"post\">  </form>");
 		}	
 	}
 	
@@ -77,13 +77,13 @@ $( document ).ready(function() {
 		    	 $('#'+form.id+'').append("<br>");
 		    	 $('#'+form.id+'').append("</div>");
 		     }
-		     else if(result.tags[i2].tagType=="button"){
+		     if(result.tags[i2].tagType=="button"){
 		    	 $('#'+form.id+'').append("<input type='"+result.tags[i2].tagType+"' id='"+result.tags[i2].tagId+"'  value='"+result.tags[i2].value+"' value='"+result.tags[i2].value+"'  class='btn btn-primary  btn-lg'>"); 
-		    	 $('#'+form.id+'').append("<br>");
-
-		    	 
-
 		     }
+		     if(result.tags[i2].tagType=="submit"){
+		    	 $('#'+form.id+'').append("<input type='"+result.tags[i2].tagType+"' id='"+result.tags[i2].tagId+"'  value='"+result.tags[i2].value+"' value='"+result.tags[i2].value+"'  class='btn btn-primary  btn-lg'>"); 
+		     }
+		     
          }
 		
 		
