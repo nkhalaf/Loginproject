@@ -23,7 +23,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>alluser</servlet-name>
-    <url-pattern>/AllUsers</url-pattern>
+    <url-pattern>/AllUsers.do</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>Admin</servlet-name>
@@ -31,7 +31,15 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Admin</servlet-name>
-    <url-pattern>/Admin</url-pattern>
+    <url-pattern>/Admin.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>AddToJson</servlet-name>
+    <jsp-file>/AdminJ/AddToJson.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddToJson</servlet-name>
+    <url-pattern>/AddToJson.do</url-pattern>
   </servlet-mapping>
   <filter>
     <filter-name>filter01</filter-name>
@@ -39,14 +47,6 @@
   </filter>
   <filter-mapping>
     <filter-name>filter01</filter-name>
-    <url-pattern>*.jsp</url-pattern>
-  </filter-mapping>
-  <filter-mapping>
-    <filter-name>filter01</filter-name>
-    <url-pattern>/AllUsers</url-pattern>
-  </filter-mapping>
-  <filter-mapping>
-    <filter-name>filter01</filter-name>
-    <url-pattern>/Admin</url-pattern>
+    <url-pattern>*.do</url-pattern>
   </filter-mapping>
 </web-app>
